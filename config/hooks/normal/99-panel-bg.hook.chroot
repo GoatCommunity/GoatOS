@@ -1,0 +1,3 @@
+#!/bin/sh
+
+ffmpeg -f lavfi -i "color=c=#111111:s=64x64" -frames:v 1 -y /usr/share/pixmaps/panel-bg.png

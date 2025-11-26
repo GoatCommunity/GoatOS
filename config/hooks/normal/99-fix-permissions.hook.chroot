@@ -1,0 +1,15 @@
+#!/bin/sh
+
+chmod 644 /usr/share/pixmaps/*.png
+chmod 644 /usr/share/backgrounds/*.jpg
+
+chmod 644 /etc/lightdm/lightdm-gtk-greeter.conf
+chmod 644 /etc/skel/.config/lxpanel/default/panels/panel
+
+find /etc/skel -type d -exec chmod 755 {} \;
+find /etc/skel -type f -exec chmod 644 {} \;
+
+chmod 644 /etc/lightdm/lightdm-gtk-greeter.conf
+
+find /usr/share/icons -type f -exec chmod 644 {} \;
+find /usr/share/themes -type f -exec chmod 644 {} \;
