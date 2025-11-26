@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openbox_config xmlns="http://openbox.org/3.4/rc" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <theme>
+    <name>Kaunas</name> <titleLayout>NLIMC</titleLayout>
+    <keepBorder>yes</keepBorder>
+    <animateIconify>yes</animateIconify>
+    <font place="ActiveWindow">
+      <name>Fira Code</name> <size>10</size>
+      <weight>Bold</weight>
+    </font>
+    <font place="InactiveWindow">
+      <name>Fira Code</name>
+      <size>10</size>
+      <weight>Normal</weight>
+    </font>
+    </theme>
+  
+  <desktops>
+    <number>4</number>
+    <firstdesk>1</firstdesk>
+    <names>
+      <name>Term</name>
+      <name>Web</name>
+      <name>Code</name>
+      <name>Media</name>
+    </names>
+  </desktops>
+  </openbox_config>

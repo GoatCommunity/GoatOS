@@ -1,0 +1,8 @@
+#!/bin/sh
+
+rm -rf /usr/share/spaceship-prompt
+
+git clone https://github.com/spaceship-prompt/spaceship-prompt.git /usr/share/spaceship-prompt --depth=1
+
+mkdir -p /usr/share/zsh/themes/
+ln -s /usr/share/spaceship-prompt/spaceship.zsh-theme /usr/share/zsh/themes/spaceship.zsh-theme

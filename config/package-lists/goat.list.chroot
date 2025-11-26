@@ -20,6 +20,7 @@ amd64-microcode
 nvidia-driver
 linux-headers-amd64
 
+
 xorg
 lightdm
 lightdm-gtk-greeter
@@ -40,6 +41,8 @@ scrot
 mousepad
 fonts-firacode
 fonts-noto-color-emoji
+papirus-icon-theme
+materia-gtk-theme
 
 pipewire
 pipewire-alsa
@@ -75,6 +78,7 @@ zsh-autosuggestions
 zsh-syntax-highlighting
 binwalk
 macchanger
+openvpn
 ffuf
 
 firefox-esr

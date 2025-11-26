@@ -1,0 +1,19 @@
+Plugin {
+    type = menu
+    Config {
+        image=/usr/share/pixmaps/menu-icon.png
+        system {
+        }
+        separator {
+        }
+        item {
+            command=run
+        }
+        separator {
+        }
+        item {
+            image=gnome-logout
+            command=logout
+        }
+    }
+}

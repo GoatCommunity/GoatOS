@@ -1,0 +1,13 @@
+/usr/lib/x86_64-linux-gnu/openbox-xdg-autostart --all &
+
+pcmanfm --desktop --profile default &
+
+sleep 1
+
+pcmanfm --set-wallpaper /usr/share/backgrounds/bg.jpg --wallpaper-mode=stretch &
+
+lxpanel &
+
+nm-applet &
+
+xfce4-power-manager &
