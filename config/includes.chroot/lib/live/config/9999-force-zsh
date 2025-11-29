@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# Força o ZSH para o usuário 'user' do Live CD
+if id "user" >/dev/null 2>&1; then
+    chsh -s /usr/bin/zsh user
+fi

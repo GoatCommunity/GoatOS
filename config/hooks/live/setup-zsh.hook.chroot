@@ -1,0 +1,36 @@
+#!/bin/sh
+
+chsh -s /usr/bin/zsh root
+sed -i 's|SHELL=/bin/bash|SHELL=/usr/bin/zsh|' /etc/default/useradd
+
+git clone https://github.com/spaceship-prompt/spaceship-prompt.git /usr/share/zsh/themes/spaceship-prompt --depth=1
+ln -s /usr/share/zsh/themes/spaceship-prompt/spaceship.zsh-theme /usr/share/zsh/themes/spaceship.zsh-theme
+
+cat <<EOF > /etc/skel/.zshrc
+source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+autoload -U promptinit; promptinit
+prompt spaceship
+
+SPACESHIP_PROMPT_ORDER=(
+  user
+  dir
+  host
+  git
+  exec_time
+  line_sep
+  char
+)
+
+SPACESHIP_USER_SHOW=always
+SPACESHIP_PROMPT_ADD_NEWLINE=false
+SPACESHIP_CHAR_SYMBOL="❯"
+SPACESHIP_CHAR_SUFFIX=" "
+SPACESHIP_DIR_TRUNC=0
+
+alias ll='ls -lha'
+alias grep='grep --color=auto'
+EOF
+
+cp /etc/skel/.zshrc /root/.zshrc

@@ -1,0 +1,16 @@
+#!/bin/sh
+echo "REMOVENDO BLOATWARE..."
+
+# Lista de pacotes para remover
+apt-get purge -y --auto-remove \
+    libreoffice* \
+    gimp* \
+    firefox-esr* \
+    xterm \
+    uxterm \
+    transmission-gtk \
+    simple-scan \
+    atril \
+    eom
+
+apt-get clean

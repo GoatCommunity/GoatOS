@@ -1,0 +1,3 @@
+#!/bin/sh
+# Compila os schemas para aplicar o wallpaper e tema definidos
+glib-compile-schemas /usr/share/glib-2.0/schemas

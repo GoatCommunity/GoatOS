@@ -1,0 +1,16 @@
+[org.mate.interface]
+gtk-theme='Goat-Dark'
+icon-theme='Papirus-Dark'
+
+monospace-font-name='Fira Code 11'
+font-name='Roboto 10'
+
+[org.mate.Marco.general]
+theme='Goat-Dark'
+
+[org.mate.background]
+picture-filename='/usr/share/backgrounds/wallpapers-2025.jpg'
+
+[org.mate.peripherals-mouse]
+cursor-theme='DMZ-Black'
+cursor-size=24
