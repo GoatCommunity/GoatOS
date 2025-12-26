@@ -1,0 +1,89 @@
+#!/bin/bash
+# GoatOS - Instala clientes VPN para labs (HTB, THM)
+
+set -e
+
+echo "=== GOATOS: Instalando VPN Clients ==="
+
+# OpenVPN
+apt-get install -y openvpn network-manager-openvpn network-manager-openvpn-gnome
+
+# WireGuard
+apt-get install -y wireguard wireguard-tools
+
+# Script helper para HTB
+cat > /usr/local/bin/htb-vpn << 'EOF'
+#!/bin/bash
+# Conectar ao HackTheBox VPN
+
+OVPN_FILE="$1"
+
+if [ -z "$OVPN_FILE" ]; then
+    echo "Uso: htb-vpn <arquivo.ovpn>"
+    echo ""
+    echo "Baixe seu arquivo .ovpn em:"
+    echo "https://app.hackthebox.com/profile"
+    exit 1
+fi
+
+if [ ! -f "$OVPN_FILE" ]; then
+    echo "Erro: Arquivo não encontrado: $OVPN_FILE"
+    exit 1
+fi
+
+echo "[*] Conectando ao HackTheBox..."
+echo "[*] Pressione Ctrl+C para desconectar"
+sudo openvpn --config "$OVPN_FILE"
+EOF
+chmod +x /usr/local/bin/htb-vpn
+
+# Script helper para TryHackMe
+cat > /usr/local/bin/thm-vpn << 'EOF'
+#!/bin/bash
+# Conectar ao TryHackMe VPN
+
+OVPN_FILE="$1"
+
+if [ -z "$OVPN_FILE" ]; then
+    echo "Uso: thm-vpn <arquivo.ovpn>"
+    echo ""
+    echo "Baixe seu arquivo .ovpn em:"
+    echo "https://tryhackme.com/access"
+    exit 1
+fi
+
+if [ ! -f "$OVPN_FILE" ]; then
+    echo "Erro: Arquivo não encontrado: $OVPN_FILE"
+    exit 1
+fi
+
+echo "[*] Conectando ao TryHackMe..."
+echo "[*] Pressione Ctrl+C para desconectar"
+sudo openvpn --config "$OVPN_FILE"
+EOF
+chmod +x /usr/local/bin/thm-vpn
+
+# Diretório para arquivos VPN
+mkdir -p /etc/skel/VPN
+cat > /etc/skel/VPN/README.md << 'EOF'
+# VPN Files
+
+Coloque seus arquivos .ovpn aqui.
+
+## Comandos
+
+```bash
+# HackTheBox
+htb-vpn seu-arquivo.ovpn
+
+# TryHackMe
+thm-vpn seu-arquivo.ovpn
+```
+
+## Downloads
+
+- HTB: https://app.hackthebox.com/profile
+- THM: https://tryhackme.com/access
+EOF
+
+echo "=== GOATOS: VPN Clients instalados ==="

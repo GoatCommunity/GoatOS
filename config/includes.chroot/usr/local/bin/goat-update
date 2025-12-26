@@ -1,0 +1,43 @@
+#!/bin/bash
+# GoatOS - Script para atualizar ferramentas Go
+
+set -e
+
+echo "=== GOATOS: Auto-Update de Ferramentas ==="
+
+export GOPATH=/opt/go
+export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
+
+echo "[*] Atualizando nuclei..."
+go install github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest
+
+echo "[*] Atualizando httpx..."
+go install github.com/projectdiscovery/httpx/cmd/httpx@latest
+
+echo "[*] Atualizando subfinder..."
+go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
+
+echo "[*] Atualizando katana..."
+go install github.com/projectdiscovery/katana/cmd/katana@latest
+
+echo "[*] Atualizando dnsx..."
+go install github.com/projectdiscovery/dnsx/cmd/dnsx@latest
+
+echo "[*] Atualizando ffuf..."
+go install github.com/ffuf/ffuf/v2@latest
+
+echo "[*] Atualizando nuclei templates..."
+nuclei -update-templates
+
+echo "[*] Atualizando links simbólicos..."
+ln -sf $GOPATH/bin/* /usr/local/bin/ 2>/dev/null || true
+
+echo ""
+echo "=== Versões Atuais ==="
+nuclei -version 2>/dev/null | head -1 || echo "nuclei: erro"
+httpx -version 2>/dev/null | head -1 || echo "httpx: erro"
+subfinder -version 2>/dev/null | head -1 || echo "subfinder: erro"
+ffuf -V 2>/dev/null | head -1 || echo "ffuf: erro"
+
+echo ""
+echo "=== GOATOS: Atualização concluída ==="

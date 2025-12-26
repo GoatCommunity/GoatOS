@@ -1,0 +1,28 @@
+---
+componentName: goatos
+
+strings:
+    productName:         GoatOS
+    shortProductName:    GoatOS
+    version:             1.0
+    shortVersion:        1.0
+    versionedName:       GoatOS 1.0
+    shortVersionedName:  GoatOS 1.0
+    bootloaderEntryName: GoatOS
+    productUrl:          https://github.com/goatsecurity
+    supportUrl:          https://github.com/goatsecurity/goatos/issues
+    knownIssuesUrl:      https://github.com/goatsecurity/goatos/issues
+    releaseNotesUrl:     https://github.com/goatsecurity/goatos/releases
+
+images:
+    productLogo:         "logo.png"
+    productIcon:         "logo.png"
+    productWelcome:      "welcome.png"
+
+slideshow:               "show.qml"
+
+style:
+   sidebarBackground:    "#000000"
+   sidebarText:          "#FFFFFF"
+   sidebarTextSelect:    "#FFFFFF"
+   sidebarTextHighlight: "#888888"

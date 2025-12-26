@@ -1,0 +1,88 @@
+#!/bin/bash
+# GoatOS - GRUB Theme customizado
+
+set -e
+
+echo "=== GOATOS: Configurando GRUB Theme ==="
+
+GRUB_THEME_DIR="/boot/grub/themes/goatos"
+mkdir -p $GRUB_THEME_DIR
+
+# Criar tema GRUB
+cat > $GRUB_THEME_DIR/theme.txt << 'EOF'
+# GoatOS GRUB Theme
+
+# Canvas
+title-text: ""
+desktop-color: "#000000"
+terminal-font: "DejaVu Sans Mono Regular 14"
+terminal-box: "terminal_box_*.png"
+
+# Title
++ label {
+    text = "🐐 GoatOS"
+    font = "DejaVu Sans Bold 24"
+    color = "#ffffff"
+    align = "center"
+    top = 30%
+    left = 0
+    width = 100%
+}
+
++ label {
+    text = "Web/API Pentesting Distribution"
+    font = "DejaVu Sans Regular 14"
+    color = "#888888"
+    align = "center"
+    top = 38%
+    left = 0
+    width = 100%
+}
+
+# Boot Menu
++ boot_menu {
+    left = 25%
+    top = 45%
+    width = 50%
+    height = 40%
+    item_font = "DejaVu Sans Regular 16"
+    item_color = "#888888"
+    selected_item_font = "DejaVu Sans Bold 16"
+    selected_item_color = "#ffffff"
+    item_height = 32
+    item_spacing = 8
+    icon_width = 0
+    icon_height = 0
+}
+
+# Progress Bar
++ progress_bar {
+    id = "__timeout__"
+    left = 25%
+    top = 90%
+    width = 50%
+    height = 16
+    font = "DejaVu Sans Regular 12"
+    text_color = "#ffffff"
+    fg_color = "#ffffff"
+    bg_color = "#1a1a1a"
+    border_color = "#333333"
+    show_text = true
+    text = "@TIMEOUT_NOTIFICATION_LONG@"
+}
+EOF
+
+# Configurar GRUB para usar o tema
+cat > /etc/default/grub.d/goatos.cfg << 'EOF'
+GRUB_THEME="/boot/grub/themes/goatos/theme.txt"
+GRUB_BACKGROUND=""
+GRUB_TIMEOUT=5
+GRUB_TIMEOUT_STYLE=menu
+GRUB_DISTRIBUTOR="GoatOS"
+GRUB_DISABLE_OS_PROBER=false
+EOF
+
+# Atualizar GRUB
+update-grub 2>/dev/null || true
+
+echo "=== GOATOS: GRUB Theme configurado ==="
