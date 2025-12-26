@@ -1,0 +1,59 @@
+#!/bin/bash
+# GoatOS - Instala Obsidian para notas de pentest
+
+set -e
+
+echo "=== GOATOS: Instalando Obsidian ==="
+
+# Baixar Obsidian AppImage
+OBSIDIAN_URL="https://github.com/obsidianmd/obsidian-releases/releases/download/v1.5.3/Obsidian-1.5.3.AppImage"
+
+wget -q --show-progress -O /opt/Obsidian.AppImage "$OBSIDIAN_URL"
+chmod +x /opt/Obsidian.AppImage
+
+# Criar .desktop
+cat > /usr/share/applications/obsidian.desktop << 'EOF'
+[Desktop Entry]
+Name=Obsidian
+Comment=Markdown notes for pentesting
+Exec=/opt/Obsidian.AppImage --no-sandbox
+Icon=obsidian
+Terminal=false
+Type=Application
+Categories=Office;TextEditor;
+EOF
+
+# Criar vault template para pentest
+mkdir -p /etc/skel/Documents/PentestVault
+cat > /etc/skel/Documents/PentestVault/README.md << 'EOF'
+# 🐐 GoatOS Pentest Vault
+
+Use this vault to document your pentests.
+
+## Templates
+
+### Target Template
+```markdown
+# Target: {{target}}
+
+## Recon
+- [ ] Subdomain enumeration
+- [ ] Port scanning
+- [ ] Technology fingerprinting
+
+## Findings
+| Severity | Vuln | Location |
+|----------|------|----------|
+| High | ... | ... |
+
+## Notes
+
+```
+
+## Quick Links
+- [[Methodology]]
+- [[Cheatsheets]]
+- [[Wordlists]]
+EOF
+
+echo "=== GOATOS: Obsidian instalado ==="

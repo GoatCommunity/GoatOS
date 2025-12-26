@@ -1,0 +1,59 @@
+#!/bin/bash
+# GoatOS - Instala Docker e Docker Compose
+
+set -e
+
+echo "=== GOATOS: Instalando Docker ==="
+
+# Dependências
+apt-get install -y ca-certificates curl gnupg
+
+# Adicionar chave GPG do Docker
+install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+chmod a+r /etc/apt/keyrings/docker.gpg
+
+# Adicionar repositório
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+  bookworm stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# Instalar Docker
+apt-get update
+apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+# Adicionar usuário ao grupo docker
+usermod -aG docker user 2>/dev/null || true
+
+# Habilitar Docker no boot
+systemctl enable docker
+
+# Criar aliases úteis para Docker
+cat >> /etc/bash.bashrc << 'EOF'
+
+# Docker aliases
+alias d='docker'
+alias dc='docker compose'
+alias dps='docker ps'
+alias dpsa='docker ps -a'
+alias di='docker images'
+alias dex='docker exec -it'
+alias dlog='docker logs -f'
+alias dprune='docker system prune -af'
+
+# Quick lab functions
+vuln-lab() {
+    echo "[*] Starting DVWA..."
+    docker run -d -p 80:80 vulnerables/web-dvwa
+    echo "[+] DVWA running at http://localhost"
+}
+
+juice-shop() {
+    echo "[*] Starting OWASP Juice Shop..."
+    docker run -d -p 3000:3000 bkimminich/juice-shop
+    echo "[+] Juice Shop running at http://localhost:3000"
+}
+
+EOF
+
+echo "=== GOATOS: Docker instalado ==="

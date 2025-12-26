@@ -1,0 +1,118 @@
+#!/bin/bash
+# GoatOS - Cheatsheets offline para pentest
+
+set -e
+
+echo "=== GOATOS: Instalando Cheatsheets ==="
+
+CHEAT_DIR="/opt/cheatsheets"
+mkdir -p $CHEAT_DIR
+
+# Cheatsheet principal
+cat > $CHEAT_DIR/web-pentest.md << 'EOF'
+# 🐐 GoatOS Web Pentest Cheatsheet
+
+## Recon
+```bash
+# Subdomain enumeration
+subfinder -d target.com -o subs.txt
+cat subs.txt | httpx -silent > alive.txt
+
+# Port scan
+nmap -sV -sC -T4 target.com
+```
+
+## Fuzzing
+```bash
+# Directory
+ffuf -u https://target.com/FUZZ -w /opt/wordlists/web/common.txt
+
+# API endpoints
+ffuf -u https://api.target.com/FUZZ -w /opt/wordlists/custom/api-endpoints.txt
+
+# Parameters
+ffuf -u https://target.com/page?FUZZ=test -w /opt/wordlists/custom/api-params.txt
+```
+
+## Vulnerability Scanning
+```bash
+# Nuclei
+nuclei -u https://target.com -severity high,critical
+
+# Nikto
+nikto -h https://target.com
+
+# SQLi
+sqlmap -u "https://target.com/page?id=1" --batch
+```
+
+## Headers & SSL
+```bash
+# Security headers
+curl -I https://target.com
+
+# SSL check
+nmap --script ssl-enum-ciphers -p 443 target.com
+```
+
+## JWT
+```bash
+# Decode
+echo "token" | jwt-hack decode
+
+# Crack
+jwt-hack crack -t "token" -w /opt/wordlists/passwords/rockyou.txt
+```
+
+## XSS
+```bash
+# Dalfox
+dalfox url "https://target.com/search?q=test"
+```
+
+## Proxy
+```bash
+# mitmproxy
+mitmproxy --mode regular -p 8080
+```
+EOF
+
+# Cheatsheet Docker Labs
+cat > $CHEAT_DIR/docker-labs.md << 'EOF'
+# Docker Pentest Labs
+
+## Vulnerable Apps
+```bash
+# DVWA
+docker run -d -p 80:80 vulnerables/web-dvwa
+
+# Juice Shop
+docker run -d -p 3000:3000 bkimminich/juice-shop
+
+# WebGoat
+docker run -d -p 8080:8080 webgoat/webgoat
+
+# Damn Vulnerable GraphQL
+docker run -d -p 5013:5013 dolevf/dvga
+```
+
+## API Labs
+```bash
+# crAPI
+docker-compose -f https://raw.githubusercontent.com/OWASP/crAPI/main/deploy/docker/docker-compose.yml up -d
+
+# vAPI
+docker run -d -p 8000:8000 roottusk/vapi
+```
+
+## Cleanup
+```bash
+docker stop $(docker ps -q)
+docker system prune -af
+```
+EOF
+
+# Link no Desktop
+ln -sf $CHEAT_DIR /etc/skel/Desktop/Cheatsheets 2>/dev/null || true
+
+echo "=== GOATOS: Cheatsheets instalados em /opt/cheatsheets ==="

@@ -1,0 +1,39 @@
+#!/bin/bash
+# GoatOS - Instala Tor Browser
+
+set -e
+
+echo "=== GOATOS: Instalando Tor Browser ==="
+
+# Baixar Tor Browser
+TOR_VERSION="13.0.9"
+TOR_URL="https://www.torproject.org/dist/torbrowser/${TOR_VERSION}/tor-browser-linux-x86_64-${TOR_VERSION}.tar.xz"
+
+wget -q --show-progress -O /tmp/tor-browser.tar.xz "$TOR_URL" || {
+    echo "Tentando versão alternativa..."
+    TOR_VERSION="13.0.8"
+    TOR_URL="https://www.torproject.org/dist/torbrowser/${TOR_VERSION}/tor-browser-linux-x86_64-${TOR_VERSION}.tar.xz"
+    wget -q --show-progress -O /tmp/tor-browser.tar.xz "$TOR_URL"
+}
+
+# Extrair
+tar -xf /tmp/tor-browser.tar.xz -C /opt/
+mv /opt/tor-browser /opt/tor-browser 2>/dev/null || true
+rm /tmp/tor-browser.tar.xz
+
+# Criar .desktop
+cat > /usr/share/applications/tor-browser.desktop << 'EOF'
+[Desktop Entry]
+Name=Tor Browser
+Comment=Anonymous browsing
+Exec=/opt/tor-browser/Browser/start-tor-browser --detach
+Icon=/opt/tor-browser/Browser/browser/chrome/icons/default/default128.png
+Terminal=false
+Type=Application
+Categories=Network;WebBrowser;Security;
+EOF
+
+# Link simbólico
+ln -sf /opt/tor-browser/Browser/start-tor-browser /usr/local/bin/tor-browser
+
+echo "=== GOATOS: Tor Browser instalado ==="
