@@ -1,0 +1,46 @@
+# GoatOS Build Artifacts
+*.iso
+*.img
+*.hybrid.iso
+*.contents
+*.files
+*.packages
+*.zsync
+
+# Live-build directories
+build/
+cache/
+chroot/
+binary/
+source/
+.build/
+
+# Live-build state files
+.build
+.stage
+
+# Logs
+*.log
+build.log
+
+# Temporary files
+*.tmp
+*.temp
+*~
+.*.swp
+.*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor directories
+.idea/
+.vscode/
+*.sublime-*
+
+# Backup files
+*.bak
+*.backup
+*.orig
