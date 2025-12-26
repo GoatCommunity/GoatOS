@@ -24,7 +24,6 @@ dmz-cursor-theme
 # USB/ISO Tools
 gparted
 gnome-multi-writer
-usb-creator-gtk
 dosfstools
 ntfs-3g
 exfatprogs
