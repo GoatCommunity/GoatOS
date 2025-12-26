@@ -11,6 +11,8 @@
 
 *Unlike Kali/Parrot that try to do everything, GoatOS focuses exclusively on Web & API security testing.*
 
+[Documentation](docs/) | [Getting Started](docs/getting-started.md) | [Tools](docs/tools/)
+
 </div>
 
 ---
@@ -35,47 +37,37 @@
 | **Recon** | subfinder, httpx, katana, dnsx |
 | **Scanning** | nuclei, nikto, whatweb, nmap |
 | **Fuzzing** | ffuf |
-| **SQLi/XSS** | sqlmap, dalfox |
+| **SQLi/XSS** | sqlmap |
 | **Proxy** | Burp Suite, mitmproxy |
 | **API** | Postman, httpie, jwt-hack |
 | **Dev** | VSCodium, Docker, Obsidian |
 
-### 📚 Wordlists
+### 📚 Wordlists & Cheatsheets
 
 ```
-/opt/wordlists/
-├── SecLists/
-├── PayloadsAllTheThings/
-└── custom/api-endpoints.txt
+/opt/wordlists/     - SecLists, PayloadsAllTheThings
+/opt/cheatsheets/   - Offline guides
 ```
 
 ### 🎨 GoatSecurity Theme
 
 - Pure black (`#000000`) background
-- White (`#ffffff`) text
-- Custom GNOME Shell styling
-- Plymouth boot splash
-- Custom GRUB menu
-
-### 🔒 Privacy & Security
-
-- UFW Firewall (deny incoming)
+- Custom GNOME Shell, Plymouth, GRUB
 - Chromium with uBlock Origin, Bitwarden, Dark Reader
-- DuckDuckGo as default search
-- Tor Browser included
 
-### 🌐 VPN Ready
+### 📝 Report Generator
 
 ```bash
-htb-vpn your-file.ovpn   # HackTheBox
-thm-vpn your-file.ovpn   # TryHackMe
+goat-report                    # Interactive mode
+goat-report -p "Client" -t "target.com"
 ```
 
-### 🐳 Docker Labs
+### 🌐 VPN & Labs Ready
 
 ```bash
-vuln-lab      # Start DVWA
-juice-shop    # Start OWASP Juice Shop
+htb-vpn your-file.ovpn         # HackTheBox
+vuln-lab                       # Start DVWA
+juice-shop                     # Start Juice Shop
 ```
 
 ---
@@ -84,22 +76,32 @@ juice-shop    # Start OWASP Juice Shop
 
 | Command | Description |
 |---------|-------------|
-| `recon <domain>` | Subdomain enumeration + probe |
-| `webscan <url>` | Full vulnerability scan |
+| `recon <domain>` | Subdomain enumeration |
+| `webscan <url>` | Vulnerability scan |
 | `fuzz <url>/FUZZ` | Directory fuzzing |
-| `goat-update` | Update all Go tools |
+| `goat-update` | Update Go tools |
+| `goat-report` | Generate report |
+| `goat-usb <iso>` | Write ISO to USB |
+
+---
+
+## Documentation
+
+📖 Full documentation available in [`docs/`](docs/)
+
+- [Getting Started](docs/getting-started.md)
+- [Web Pentesting Guide](docs/guides/web-pentesting.md)
+- [API Testing Guide](docs/guides/api-testing.md)
+- [Reporting Guide](docs/guides/reporting.md)
+- [Tools Reference](docs/tools/)
 
 ---
 
 ## Building
 
 ```bash
-# Requirements
 sudo apt install live-build debootstrap
-
-# Build
-cd /path/to/goatos
-rm -f .build
+cd goatos && rm -f .build
 sudo lb clean --purge
 sudo lb config
 sudo lb build
