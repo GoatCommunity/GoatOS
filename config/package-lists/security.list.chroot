@@ -1,29 +1,66 @@
+# ================================
+# GoatOS - Web/API Pentesting Tools
+# ================================
+
+# --- Browser ---
 chromium
+firefox-esr
+
+# --- Essentials ---
 vim
+neovim
 curl
 wget
+jq
 
-libimage-exiftool-perl
-poppler-utils
-binutils
-
+# --- Network Analysis ---
 nmap
 wireshark
 tcpdump
 net-tools
 dnsutils
+netcat-openbsd
 
-ffuf
-sqlmap
+# --- Virtualization ---
+virt-manager
+qemu-system-x86
+libvirt-daemon-system
+
+# --- Recon ---
+whois
+dnsrecon
+dnsenum
+
+# --- Web Scanning ---
 nikto
 whatweb
+wapiti
+dirb
 
-john
+# --- SQL Injection ---
+sqlmap
+
+# --- Proxy/Intercept ---
+mitmproxy
+proxychains4
+
+# --- Brute Force ---
 hydra
 
+# --- Metadata/Forensics ---
+libimage-exiftool-perl
+poppler-utils
+binutils
+
+# --- API Testing ---
 httpie
-jq
 
+# --- Development ---
 python3-pip
+python3-venv
+python3-requests
+python3-bs4
 build-essential
-
+golang
+nodejs
+npm
