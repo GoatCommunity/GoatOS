@@ -1,5 +1,0 @@
-#!/bin/sh
-echo "Baixando e Instalando Insomnia..."
-wget -qO /tmp/insomnia.deb "https://github.com/Kong/insomnia/releases/download/core%402023.5.8/Insomnia.Core-2023.5.8.deb"
-apt-get install -y /tmp/insomnia.deb
-rm /tmp/insomnia.deb

@@ -5,24 +5,22 @@ set -e
 
 echo "=== GOATOS: Instalando Tor Browser ==="
 
-# Baixar Tor Browser
-TOR_VERSION="13.0.9"
-TOR_URL="https://www.torproject.org/dist/torbrowser/${TOR_VERSION}/tor-browser-linux-x86_64-${TOR_VERSION}.tar.xz"
-
-wget -q --show-progress -O /tmp/tor-browser.tar.xz "$TOR_URL" || {
-    echo "Tentando versão alternativa..."
-    TOR_VERSION="13.0.8"
-    TOR_URL="https://www.torproject.org/dist/torbrowser/${TOR_VERSION}/tor-browser-linux-x86_64-${TOR_VERSION}.tar.xz"
-    wget -q --show-progress -O /tmp/tor-browser.tar.xz "$TOR_URL"
-}
-
-# Extrair
-tar -xf /tmp/tor-browser.tar.xz -C /opt/
-mv /opt/tor-browser /opt/tor-browser 2>/dev/null || true
-rm /tmp/tor-browser.tar.xz
-
-# Criar .desktop
-cat > /usr/share/applications/tor-browser.desktop << 'EOF'
+# Usar torbrowser-launcher do repositório Debian (mais estável)
+apt-get install -y torbrowser-launcher || {
+    echo "[!] torbrowser-launcher não disponível, tentando download manual..."
+    
+    # Tentar baixar versão específica
+    TOR_VERSION="14.0.3"
+    TOR_URL="https://archive.torproject.org/tor-package-archive/torbrowser/${TOR_VERSION}/tor-browser-linux-x86_64-${TOR_VERSION}.tar.xz"
+    
+    if wget -q --spider "$TOR_URL" 2>/dev/null; then
+        wget -q --show-progress -O /tmp/tor-browser.tar.xz "$TOR_URL"
+        tar -xf /tmp/tor-browser.tar.xz -C /opt/
+        mv /opt/tor-browser /opt/tor-browser 2>/dev/null || true
+        rm /tmp/tor-browser.tar.xz
+        
+        # Criar .desktop
+        cat > /usr/share/applications/tor-browser.desktop << 'EOF'
 [Desktop Entry]
 Name=Tor Browser
 Comment=Anonymous browsing
@@ -32,8 +30,11 @@ Terminal=false
 Type=Application
 Categories=Network;WebBrowser;Security;
 EOF
+        ln -sf /opt/tor-browser/Browser/start-tor-browser /usr/local/bin/tor-browser
+    else
+        echo "[!] Download falhou - Tor Browser pode ser instalado manualmente"
+        echo "[!] Execute: torbrowser-launcher"
+    fi
+}
 
-# Link simbólico
-ln -sf /opt/tor-browser/Browser/start-tor-browser /usr/local/bin/tor-browser
-
-echo "=== GOATOS: Tor Browser instalado ==="
+echo "=== GOATOS: Tor Browser configurado ==="
