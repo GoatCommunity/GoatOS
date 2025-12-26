@@ -1,0 +1,94 @@
+#!/bin/bash
+# GoatOS - Instala SecLists e wordlists essenciais
+
+set -e
+
+echo "=== GOATOS: Instalando Wordlists ==="
+
+WORDLIST_DIR="/opt/wordlists"
+mkdir -p $WORDLIST_DIR
+
+# SecLists (essencial)
+echo "[*] Clonando SecLists..."
+git clone --depth 1 https://github.com/danielmiessler/SecLists.git $WORDLIST_DIR/SecLists
+
+# Payloads All The Things (referência)
+echo "[*] Clonando PayloadsAllTheThings..."
+git clone --depth 1 https://github.com/swisskyrepo/PayloadsAllTheThings.git $WORDLIST_DIR/PayloadsAllTheThings
+
+# API Wordlists específicas
+echo "[*] Criando wordlists customizadas para API..."
+mkdir -p $WORDLIST_DIR/custom
+
+cat > $WORDLIST_DIR/custom/api-endpoints.txt << 'EOF'
+api
+api/v1
+api/v2
+api/v3
+graphql
+graphiql
+swagger
+swagger.json
+swagger.yaml
+openapi.json
+openapi.yaml
+api-docs
+docs
+health
+healthcheck
+status
+metrics
+info
+version
+config
+debug
+admin
+internal
+private
+EOF
+
+cat > $WORDLIST_DIR/custom/api-params.txt << 'EOF'
+id
+user_id
+userId
+user
+username
+email
+password
+token
+api_key
+apiKey
+secret
+auth
+authorization
+access_token
+refresh_token
+session
+role
+admin
+debug
+test
+callback
+redirect
+url
+next
+return
+file
+path
+cmd
+exec
+query
+search
+filter
+sort
+limit
+offset
+page
+EOF
+
+# Criar links úteis
+ln -sf $WORDLIST_DIR/SecLists/Discovery/Web-Content /opt/wordlists/web
+ln -sf $WORDLIST_DIR/SecLists/Fuzzing /opt/wordlists/fuzzing
+ln -sf $WORDLIST_DIR/SecLists/Passwords /opt/wordlists/passwords
+
+echo "=== GOATOS: Wordlists instaladas em /opt/wordlists ==="

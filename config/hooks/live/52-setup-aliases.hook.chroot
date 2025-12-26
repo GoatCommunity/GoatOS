@@ -1,0 +1,69 @@
+#!/bin/bash
+# GoatOS - Aliases e funções úteis para pentest web/API
+
+set -e
+
+echo "=== GOATOS: Configurando aliases ==="
+
+# Adicionar aliases ao bashrc global
+cat >> /etc/bash.bashrc << 'ALIASES'
+
+# ================================
+# GoatOS Web/API Pentest Aliases
+# ================================
+
+# Wordlists shortcuts
+alias seclists='ls /opt/wordlists/SecLists'
+alias wl='cd /opt/wordlists'
+
+# Quick scans
+alias qscan='nmap -sV -sC -T4'
+alias fullscan='nmap -sV -sC -A -T4 -p-'
+
+# Nuclei shortcuts
+alias nscan='nuclei -t /root/nuclei-templates/'
+alias nweb='nuclei -t /root/nuclei-templates/http/'
+alias ncve='nuclei -t /root/nuclei-templates/cves/'
+
+# Fuzzing
+alias fuzz='ffuf -w /opt/wordlists/SecLists/Discovery/Web-Content/common.txt -u'
+alias fuzzdir='ffuf -w /opt/wordlists/SecLists/Discovery/Web-Content/directory-list-2.3-medium.txt -u'
+alias fuzzapi='ffuf -w /opt/wordlists/custom/api-endpoints.txt -u'
+
+# Recon
+alias subenum='subfinder -d'
+alias probealive='httpx -silent'
+
+# SQLi
+alias sqli='sqlmap --batch --random-agent'
+
+# Proxy
+alias mitm='mitmproxy --mode regular'
+alias mitmweb='mitmweb --mode regular'
+
+# Useful functions
+recon() {
+    domain=$1
+    echo "[*] Running recon on $domain"
+    echo "[+] Subfinder..."
+    subfinder -d $domain -silent | tee /tmp/subs_$domain.txt
+    echo "[+] HTTPx probe..."
+    cat /tmp/subs_$domain.txt | httpx -silent | tee /tmp/alive_$domain.txt
+    echo "[+] Found $(wc -l < /tmp/alive_$domain.txt) alive hosts"
+}
+
+webscan() {
+    url=$1
+    echo "[*] Full web scan on $url"
+    echo "[+] Nuclei..."
+    nuclei -u $url -severity low,medium,high,critical
+    echo "[+] Nikto..."
+    nikto -h $url
+}
+
+ALIASES
+
+# Adicionar ao zshrc também
+cp /etc/bash.bashrc /etc/zsh/zshrc.local 2>/dev/null || true
+
+echo "=== GOATOS: Aliases configurados ==="

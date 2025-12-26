@@ -1,0 +1,60 @@
+#!/bin/bash
+# GoatOS - Instala ferramentas Go (versões compatíveis)
+
+set -e
+
+echo "=== GOATOS: Instalando ferramentas Go ==="
+
+# Instalar Go 1.23.4 (mais recente estável)
+echo "[*] Instalando Go 1.23.4..."
+wget -q https://go.dev/dl/go1.23.4.linux-amd64.tar.gz -O /tmp/go.tar.gz
+rm -rf /usr/local/go
+tar -C /usr/local -xzf /tmp/go.tar.gz
+rm /tmp/go.tar.gz
+
+# Configurar GOPATH
+export GOROOT=/usr/local/go
+export GOPATH=/opt/go
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+mkdir -p $GOPATH
+
+# Adicionar ao PATH global
+cat > /etc/profile.d/go.sh << 'EOF'
+export GOROOT=/usr/local/go
+export GOPATH=/opt/go
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+EOF
+
+# Verificar versão do Go
+echo "[*] Go version: $($GOROOT/bin/go version)"
+
+# Instalar ferramentas com versões específicas compatíveis
+echo "[*] Instalando nuclei v3.3.7..."
+$GOROOT/bin/go install github.com/projectdiscovery/nuclei/v3/cmd/nuclei@v3.3.7
+
+echo "[*] Instalando httpx v1.6.9..."
+$GOROOT/bin/go install github.com/projectdiscovery/httpx/cmd/httpx@v1.6.9
+
+echo "[*] Instalando subfinder v2.6.7..."
+$GOROOT/bin/go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@v2.6.7
+
+echo "[*] Instalando katana v1.1.0..."
+$GOROOT/bin/go install github.com/projectdiscovery/katana/cmd/katana@v1.1.0
+
+echo "[*] Instalando dnsx v1.2.1..."
+$GOROOT/bin/go install github.com/projectdiscovery/dnsx/cmd/dnsx@v1.2.1
+
+echo "[*] Instalando ffuf v2.1.0..."
+$GOROOT/bin/go install github.com/ffuf/ffuf/v2@v2.1.0
+
+echo "[*] Instalando jwt-hack..."
+$GOROOT/bin/go install github.com/hahwul/jwt-hack@latest
+
+# Criar links simbólicos
+ln -sf $GOPATH/bin/* /usr/local/bin/ 2>/dev/null || true
+
+# Atualizar nuclei templates
+echo "[*] Atualizando nuclei templates..."
+$GOPATH/bin/nuclei -update-templates 2>/dev/null || true
+
+echo "=== GOATOS: Ferramentas Go instaladas ==="
