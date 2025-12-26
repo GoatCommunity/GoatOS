@@ -1,0 +1,55 @@
+#!/bin/bash
+# GoatOS - Pré-configura Chromium com extensões de segurança
+
+set -e
+
+echo "=== GOATOS: Configurando Chromium ==="
+
+CHROMIUM_POLICIES="/etc/chromium/policies/managed"
+mkdir -p $CHROMIUM_POLICIES
+
+# Extensões para instalar automaticamente
+# uBlock Origin, Bitwarden, Dark Reader
+cat > $CHROMIUM_POLICIES/goatos-extensions.json << 'EOF'
+{
+  "ExtensionInstallForcelist": [
+    "cjpalhdlnbpafiamejdnhcphjbkeiagm;https://clients2.google.com/service/update2/crx",
+    "nngceckbapebfimnlniiiahkandclblb;https://clients2.google.com/service/update2/crx",
+    "eimadpbcbfnmbkopoojfekhnkhdbieeh;https://clients2.google.com/service/update2/crx"
+  ],
+  "ExtensionInstallAllowlist": [
+    "cjpalhdlnbpafiamejdnhcphjbkeiagm",
+    "nngceckbapebfimnlniiiahkandclblb",
+    "eimadpbcbfnmbkopoojfekhnkhdbieeh"
+  ]
+}
+EOF
+
+# Configurações de privacidade e segurança
+cat > $CHROMIUM_POLICIES/goatos-settings.json << 'EOF'
+{
+  "DefaultSearchProviderEnabled": true,
+  "DefaultSearchProviderName": "DuckDuckGo",
+  "DefaultSearchProviderSearchURL": "https://duckduckgo.com/?q={searchTerms}",
+  "BlockThirdPartyCookies": true,
+  "SafeBrowsingEnabled": true,
+  "PasswordManagerEnabled": false,
+  "AutofillAddressEnabled": false,
+  "AutofillCreditCardEnabled": false,
+  "TranslateEnabled": false,
+  "SpellCheckServiceEnabled": false,
+  "SearchSuggestEnabled": false,
+  "MetricsReportingEnabled": false,
+  "DefaultBrowserSettingEnabled": false,
+  "BookmarkBarEnabled": true,
+  "ShowHomeButton": true,
+  "HomepageLocation": "about:blank",
+  "RestoreOnStartup": 1
+}
+EOF
+
+echo "=== GOATOS: Chromium configurado com extensões ==="
+# Extensões instaladas:
+# - uBlock Origin (bloqueador de ads)
+# - Bitwarden (gerenciador de senhas)
+# - Dark Reader (modo escuro)

@@ -1,0 +1,30 @@
+#!/bin/bash
+# GoatOS - Configurações de privacidade e segurança
+
+set -e
+
+echo "=== GOATOS: Configurando segurança ==="
+
+# --- UFW Firewall ---
+apt-get install -y ufw
+
+# Configurar regras básicas
+ufw default deny incoming
+ufw default allow outgoing
+ufw allow ssh
+ufw --force enable
+
+# --- MAC Changer ---
+apt-get install -y macchanger
+
+# Script para trocar MAC no boot
+cat > /etc/network/if-pre-up.d/macchanger << 'EOF'
+#!/bin/bash
+# Troca MAC address automaticamente (opcional)
+# Descomente para ativar:
+# /usr/bin/macchanger -r "$IFACE" > /dev/null 2>&1 || true
+exit 0
+EOF
+chmod +x /etc/network/if-pre-up.d/macchanger
+
+echo "=== GOATOS: Segurança configurada ==="

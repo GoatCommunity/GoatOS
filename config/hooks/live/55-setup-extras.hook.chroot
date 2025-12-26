@@ -1,0 +1,72 @@
+#!/bin/bash
+# GoatOS - Ferramentas extras e qualidade de vida
+
+set -e
+
+echo "=== GOATOS: Instalando ferramentas extras ==="
+
+# --- Neofetch com config custom ---
+apt-get install -y neofetch
+
+mkdir -p /etc/skel/.config/neofetch
+cat > /etc/skel/.config/neofetch/config.conf << 'EOF'
+print_info() {
+    info title
+    info underline
+    info "OS" distro
+    info "Host" model
+    info "Kernel" kernel
+    info "Uptime" uptime
+    info "Shell" shell
+    info "Terminal" term
+    info "CPU" cpu
+    info "Memory" memory
+    info "Disk" disk
+    info underline
+    prin "🐐 GoatOS - Web/API Pentesting"
+}
+
+ascii_distro="auto"
+ascii_colors=(7 7)
+colors=(7 7 7 7 7 7)
+bold="on"
+EOF
+
+# --- Tmux ---
+apt-get install -y tmux
+
+cat > /etc/skel/.tmux.conf << 'EOF'
+# GoatOS Tmux Config
+set -g default-terminal "screen-256color"
+set -g mouse on
+set -g history-limit 10000
+set -g base-index 1
+setw -g pane-base-index 1
+
+# Prefix: Ctrl+A
+unbind C-b
+set -g prefix C-a
+bind C-a send-prefix
+
+# Split panes
+bind | split-window -h
+bind - split-window -v
+
+# Status bar
+set -g status-style bg=black,fg=white
+set -g status-left "#[fg=white,bold] 🐐 #S "
+set -g status-right "#[fg=white] %H:%M "
+EOF
+
+# --- Flameshot (screenshots) ---
+apt-get install -y flameshot
+
+# --- Oh My Zsh (será instalado pelo usuário) ---
+# Deixar script pronto para instalação fácil
+cat > /usr/local/bin/install-ohmyzsh << 'EOF'
+#!/bin/bash
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+EOF
+chmod +x /usr/local/bin/install-ohmyzsh
+
+echo "=== GOATOS: Ferramentas extras instaladas ==="

@@ -1,0 +1,69 @@
+#!/bin/bash
+# GoatOS - Bookmarks pré-configurados para Chromium
+
+set -e
+
+echo "=== GOATOS: Configurando Bookmarks ==="
+
+CHROMIUM_DIR="/etc/skel/.config/chromium/Default"
+mkdir -p $CHROMIUM_DIR
+
+cat > $CHROMIUM_DIR/Bookmarks << 'EOF'
+{
+   "checksum": "0",
+   "roots": {
+      "bookmark_bar": {
+         "children": [
+            {
+               "name": "🔍 Recon",
+               "type": "folder",
+               "children": [
+                  {"name": "Shodan", "type": "url", "url": "https://shodan.io"},
+                  {"name": "Censys", "type": "url", "url": "https://search.censys.io"},
+                  {"name": "crt.sh", "type": "url", "url": "https://crt.sh"},
+                  {"name": "SecurityTrails", "type": "url", "url": "https://securitytrails.com"},
+                  {"name": "DNSDumpster", "type": "url", "url": "https://dnsdumpster.com"}
+               ]
+            },
+            {
+               "name": "📚 Learn",
+               "type": "folder",
+               "children": [
+                  {"name": "PortSwigger Academy", "type": "url", "url": "https://portswigger.net/web-security"},
+                  {"name": "HackTheBox", "type": "url", "url": "https://hackthebox.com"},
+                  {"name": "TryHackMe", "type": "url", "url": "https://tryhackme.com"},
+                  {"name": "OWASP", "type": "url", "url": "https://owasp.org"},
+                  {"name": "PayloadsAllTheThings", "type": "url", "url": "https://github.com/swisskyrepo/PayloadsAllTheThings"}
+               ]
+            },
+            {
+               "name": "🛠️ Tools",
+               "type": "folder",
+               "children": [
+                  {"name": "CyberChef", "type": "url", "url": "https://gchq.github.io/CyberChef"},
+                  {"name": "JWT.io", "type": "url", "url": "https://jwt.io"},
+                  {"name": "Regex101", "type": "url", "url": "https://regex101.com"},
+                  {"name": "RequestBin", "type": "url", "url": "https://requestbin.com"},
+                  {"name": "Webhook.site", "type": "url", "url": "https://webhook.site"}
+               ]
+            },
+            {
+               "name": "🐐 GoatOS",
+               "type": "folder",
+               "children": [
+                  {"name": "GitHub", "type": "url", "url": "https://github.com/goatsecurity"},
+                  {"name": "Docs", "type": "url", "url": "file:///opt/cheatsheets/web-pentest.md"}
+               ]
+            }
+         ],
+         "name": "Bookmarks bar",
+         "type": "folder"
+      },
+      "other": {"children": [], "name": "Other bookmarks", "type": "folder"},
+      "synced": {"children": [], "name": "Mobile bookmarks", "type": "folder"}
+   },
+   "version": 1
+}
+EOF
+
+echo "=== GOATOS: Bookmarks configurados ==="

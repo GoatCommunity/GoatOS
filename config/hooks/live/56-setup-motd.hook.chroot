@@ -1,0 +1,45 @@
+#!/bin/bash
+# GoatOS - MOTD (Message of the Day) hacker style
+
+set -e
+
+echo "=== GOATOS: Configurando MOTD ==="
+
+# Desabilitar MOTD padrão
+chmod -x /etc/update-motd.d/* 2>/dev/null || true
+
+# Criar MOTD customizado
+cat > /etc/update-motd.d/00-goatos << 'EOF'
+#!/bin/bash
+
+WHITE='\033[1;37m'
+GRAY='\033[0;37m'
+NC='\033[0m'
+
+echo -e "${WHITE}"
+cat << 'LOGO'
+   ____             _    ___  ____  
+  / ___| ___   __ _| |_ / _ \/ ___| 
+ | |  _ / _ \ / _` | __| | | \___ \ 
+ | |_| | (_) | (_| | |_| |_| |___) |
+  \____|\___/ \__,_|\__|\___/|____/ 
+                                    
+LOGO
+echo -e "${GRAY}"
+echo "  Web/API Pentesting Distribution"
+echo "  ─────────────────────────────────"
+echo ""
+echo "  Kernel: $(uname -r)"
+echo "  User:   $(whoami)@$(hostname)"
+echo ""
+echo "  Quick Commands:"
+echo "    recon <domain>    - Subdomain enumeration"
+echo "    webscan <url>     - Full vulnerability scan"
+echo "    fuzz <url>/FUZZ   - Directory fuzzing"
+echo ""
+echo -e "${NC}"
+EOF
+
+chmod +x /etc/update-motd.d/00-goatos
+
+echo "=== GOATOS: MOTD configurado ==="
